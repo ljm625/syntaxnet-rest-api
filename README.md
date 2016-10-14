@@ -11,7 +11,7 @@ then use curl to POST **http://localhost:9000/api/v1/query**
 The Body of the POST is a json consisting following info:
 ```json
 {
-   "strings": ["Google is awersome!","Syntaxnet is Cool","..."] 
+   "strings": ["Google is awesome!","Syntaxnet is Cool","..."] 
 }
 ```
 
@@ -33,7 +33,7 @@ and the expect output is like:
         "name": "is"
       }
     ],
-    "name": "awersome"
+    "name": "awesome"
   }
 ]
 ```
