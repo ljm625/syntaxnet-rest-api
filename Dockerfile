@@ -33,8 +33,8 @@ COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
 COPY ./parsey_universal /root/models/syntaxnet/syntaxnet/models
 RUN pip install -r /app/requirements.txt
-MKDIR /models
+RUN mkdir /models
 EXPOSE 80 443 9000
-VOLUME ["/app/config","/model"]
+VOLUME ["/app/config","/models"]
 WORKDIR /app
 CMD ["/usr/bin/supervisord"]
