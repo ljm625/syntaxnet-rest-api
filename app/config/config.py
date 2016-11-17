@@ -8,3 +8,4 @@
 
 # This file stores the config
 syntaxnetFolder='/root/models/syntaxnet'
+modelFolder='/models'

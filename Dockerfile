@@ -31,8 +31,10 @@ RUN apt-get update && apt-get install -y supervisor \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
+COPY ./parsey_universal /root/models/syntaxnet/syntaxnet/models
 RUN pip install -r /app/requirements.txt
+MKDIR /models
 EXPOSE 80 443 9000
-VOLUME ["/app/config"]
+VOLUME ["/app/config","/model"]
 WORKDIR /app
 CMD ["/usr/bin/supervisord"]

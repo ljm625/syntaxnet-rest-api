@@ -17,14 +17,46 @@ class SyntaxnetParser(object):
     def __init__(self, folder=config.syntaxnetFolder):
         self.folder=folder
 
-    def parse_string(self,string):
-        def exec_from_syntax():
-            os.chdir(self.folder)
-            p = subprocess.Popen([
-                "syntaxnet/demo.sh"
-            ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-            output, err = p.communicate(string)
-            return output
+    def exec_from_syntax(self,string):
+        os.chdir(self.folder)
+        p = subprocess.Popen([
+            "syntaxnet/demo.sh"
+        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        output, err = p.communicate(string)
+        return output
+
+    def exec_from_syntax_custom(self,string,folder):
+        os.chdir(self.folder)
+        p = subprocess.Popen([
+            "syntaxnet/models/parsey_universal/parse.sh "+config.modelFolder+'/'+str(folder)
+        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        output, err = p.communicate(string)
+        return output
+
+    def parse_multi_string(self,string_list):
+        def generate():
+            string=''
+            for stuff in string_list:
+                if string:
+                    string=string+'\n'+stuff
+                else:
+                    string=stuff
+            return string
+        output=self.exec_from_syntax(generate(string_list)).split('\n')
+        start=0;
+        result_json=[]
+        for i in range(1,len(output)):
+            if 'Input' in output[i]:
+                result_json.append(self.parse_string(output[start:i]))
+                start=i
+            else:
+                pass
+        result_json.append(self.parse_string(output[start:len(output)]))
+        return result_json
+
+
+
+    def parse_string(self,format):
         def parse_col(data, json):
             if data[0] == '|':
                 if 'contains' not in json[len(json) - 1]:
@@ -38,8 +70,6 @@ class SyntaxnetParser(object):
                     json[len(json) - 1]['contains'] = []
                 json[len(json) - 1]['contains'] = parse_col(data[4:], json[len(json) - 1]['contains'])
             return json
-
-        format = exec_from_syntax().split('\n')
         json = {}
         #format=['Input: The quick brown fox jumps over the lazy dog', 'Parse:', 'jumps VBZ ROOT', ' +-- fox NN nsubj', ' |   +-- The DT det', ' |   +-- quick JJ amod', ' |   +-- brown JJ amod', ' +-- over IN prep', '     +-- dog NN pobj', '         +-- the DT det', '         +-- lazy JJ amod', '']
         key = format[2].split(' ')

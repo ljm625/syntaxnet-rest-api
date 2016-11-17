@@ -19,14 +19,31 @@ class SyntaxQuery(Resource):
         args = self.reqparse.parse_args()
         parse = parser.SyntaxnetParser(folder=args['syntax_folder'])
         try:
-            ret_val=[]
-            for string in args['strings']:
-                ret_val.append(parse.parse_string(string))
-            return ret_val
+            return parse.parse_multi_string(args['strings'])
         except Exception, e:
             return {'result': 'fail', "reason": e}, 400
 
+
+class SyntaxModelQuery(Resource):
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('strings', required=True, type=list, help='string is required field, you should input a list of strings', location='json')
+        self.reqparse.add_argument('syntax_folder', required=False, type=str, default=config.syntaxnetFolder,
+                                   location='json')
+        super(SyntaxModelQuery, self).__init__()
+
+    def post(self,folder):
+        args = self.reqparse.parse_args()
+        parse = parser.SyntaxnetParser(folder=args['syntax_folder'])
+        try:
+            return parse.parse_multi_string(args['strings'])
+        except Exception, e:
+            return {'result': 'fail', "reason": e}, 400
+
+
 api.add_resource(SyntaxQuery, '/api/v1/query')
+api.add_resource(SyntaxQuery, '/api/v1/query/<folder:string>')
+
 
 
 if __name__ == "__main__":
