@@ -32,6 +32,7 @@ COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
 RUN pip install -r /app/requirements.txt
 RUN mkdir /models
+COPY custom_parse.sh /opt/tensorflow/models/syntaxnet/syntaxnet/
 EXPOSE 80 443 9000
 VOLUME ["/app/config","/models"]
 WORKDIR /app

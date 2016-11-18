@@ -28,12 +28,12 @@ class SyntaxnetParser(object):
     def exec_from_syntax_custom(self,string,folder):
         os.chdir(self.folder)
         p = subprocess.Popen([
-            "syntaxnet/models/parsey_universal/parse.sh "+config.modelFolder+'/'+str(folder)
+            "syntaxnet/custom_parse.sh "+config.modelFolder+'/'+str(folder)
         ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         output, err = p.communicate(string)
         return output
 
-    def parse_multi_string(self,string_list):
+    def parse_multi_string(self,string_list,custom=False,folder=None):
         def generate():
             string=''
             for stuff in string_list:
@@ -42,7 +42,10 @@ class SyntaxnetParser(object):
                 else:
                     string=stuff
             return string
-        output=self.exec_from_syntax(generate()).split('\n')
+        if custom and folder:
+            output=self.exec_from_syntax_custom(generate(),folder).split('\n')
+        else:
+            output=self.exec_from_syntax(generate()).split('\n')
         start=0
         result_json=[]
         for i in range(1,len(output)):

@@ -7,5 +7,5 @@
 # @Software: PyCharm
 
 # This file stores the config
-syntaxnetFolder='/root/models/syntaxnet'
+syntaxnetFolder='/opt/tensorflow/models/syntaxnet'
 modelFolder='/models'
