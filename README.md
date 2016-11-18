@@ -39,6 +39,7 @@ and the expect output is like:
 ```
 
 ### Special Thanks
-This repo uses **brianlow's** syntaxnet docker image, also uses **tiangolo's** uwsgi+nginx+supervisord dockerfile. Special Thanks to them
+This repo uses uses **tiangolo's** uwsgi+nginx+supervisord dockerfile. Special Thanks to him
+Update the syntaxnet repo with the latest code, with working parser_universal and muti-language support.
 
 If you have any questions, feel free to ask ;)
