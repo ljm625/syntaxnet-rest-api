@@ -42,7 +42,7 @@ class SyntaxModelQuery(Resource):
 
 
 api.add_resource(SyntaxQuery, '/api/v1/query')
-api.add_resource(SyntaxQuery, '/api/v1/query/<folder:string>')
+api.add_resource(SyntaxModelQuery, '/api/v1/query/<string:folder>')
 
 
 

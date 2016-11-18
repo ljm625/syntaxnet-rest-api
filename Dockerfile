@@ -1,5 +1,5 @@
 FROM brianlow/syntaxnet:latest
-
+# THIS SYNTAXNET IS OLD!!! UPDATING
 MAINTAINER Jiaming Li <ljm625@gmail.com>
 # Install uWSGI
 RUN pip install uwsgi
@@ -31,7 +31,7 @@ RUN apt-get update && apt-get install -y supervisor \
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/conf.d/
 COPY ./app /app
-COPY ./parsey_universal /root/models/syntaxnet/syntaxnet/models
+COPY ./parsey_universal /root/models/syntaxnet/syntaxnet/models/parsey_universal
 RUN pip install -r /app/requirements.txt
 RUN mkdir /models
 EXPOSE 80 443 9000

@@ -42,8 +42,8 @@ class SyntaxnetParser(object):
                 else:
                     string=stuff
             return string
-        output=self.exec_from_syntax(generate(string_list)).split('\n')
-        start=0;
+        output=self.exec_from_syntax(generate()).split('\n')
+        start=0
         result_json=[]
         for i in range(1,len(output)):
             if 'Input' in output[i]:
@@ -74,9 +74,12 @@ class SyntaxnetParser(object):
         #format=['Input: The quick brown fox jumps over the lazy dog', 'Parse:', 'jumps VBZ ROOT', ' +-- fox NN nsubj', ' |   +-- The DT det', ' |   +-- quick JJ amod', ' |   +-- brown JJ amod', ' +-- over IN prep', '     +-- dog NN pobj', '         +-- the DT det', '         +-- lazy JJ amod', '']
         key = format[2].split(' ')
         json = {'name': key[0], "pos_tag": key[1], "dep": key[2], "contains": []}
-        for lines in format[3:-1]:
-            data = lines.split(' ')[1:]
-            json['contains']=parse_col(data, json['contains'])
+        for lines in format[3:]:
+            if lines=='':
+                pass
+            else:
+                data = lines.split(' ')[1:]
+                json['contains']=parse_col(data, json['contains'])
         pprint.pprint(json)
         return json
 
