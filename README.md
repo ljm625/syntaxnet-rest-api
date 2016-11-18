@@ -48,7 +48,7 @@ docker run -p 9000:9000 -v **/test_folder**:/models -d ljm625/syntaxnet-rest-api
 
 then POST to **http://localhost:9000/api/v1/query/*the_folder_name***
 
-for example, I am using English package, so the url is **http://localhost:9000/api/v1/query/English**
+for example, I am using English package, and the folder we extracted is called English, so the path is like **/test_folder/English**, and the url should be **http://localhost:9000/api/v1/query/English**
 
 The Body of the POST is a json consisting following info:
 ```json
