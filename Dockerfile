@@ -4,7 +4,7 @@ MAINTAINER Jiaming Li <ljm625@gmail.com>
 RUN pip install uwsgi
 ENV NGINX_VERSION 1.9.11-1~jessie
 RUN apt-get update
-RUN apt-get install -y ca-certificates nginx gettext-base
+RUN apt-get install -y ca-certificates nginx gettext-base vim
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
@@ -27,6 +27,7 @@ COPY ./app /app
 RUN pip install -r /app/requirements.txt
 RUN mkdir /models
 COPY custom_parse.sh /opt/tensorflow/models/syntaxnet/syntaxnet/
+RUN chmod 777 /opt/tensorflow/models/syntaxnet/syntaxnet/custom_parse.sh
 EXPOSE 80 443 9000
 VOLUME ["/app/config","/models"]
 WORKDIR /app

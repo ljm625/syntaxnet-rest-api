@@ -53,14 +53,19 @@ class SyntaxnetParser(object):
             output=self.exec_from_syntax(generate()).split('\n')
         start=0
         result_json=[]
-        for i in range(1,len(output)):
-            if 'Input' in output[i]:
-                result_json.append(self.parse_string(output[start:i]))
-                start=i
-            else:
-                pass
-        result_json.append(self.parse_string(output[start:len(output)]))
-        return result_json
+        try:
+            for i in range(1,len(output)):
+                if 'Input' in output[i]:
+                    result_json.append(self.parse_string(output[start:i]))
+                    start=i
+                else:
+                    pass
+            result_json.append(self.parse_string(output[start:len(output)]))
+        except Exception,e:
+            print e
+            result_json={"status":"error","reason":e}
+        finally:
+            return result_json
 
 
 
