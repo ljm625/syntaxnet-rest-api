@@ -9,27 +9,32 @@ import copy
 import os
 import pprint
 import subprocess
-
+import sys
 from config import config
 
 
 class SyntaxnetParser(object):
     def __init__(self, folder=config.syntaxnetFolder):
         self.folder=folder
-
+        reload(sys)
+        sys.setdefaultencoding('utf-8')
     def exec_from_syntax(self,string):
         os.chdir(self.folder)
+        my_env = os.environ
+        my_env['PYTHONIOENCODING'] = 'utf-8'
         p = subprocess.Popen([
             "syntaxnet/demo.sh"
-        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=my_env)
         output, err = p.communicate(string)
         return output
 
     def exec_from_syntax_custom(self,string,folder):
         os.chdir(self.folder)
+        my_env = os.environ
+        my_env['PYTHONIOENCODING'] = 'utf-8'
         p = subprocess.Popen([
             "syntaxnet/custom_parse.sh "+config.modelFolder+'/'+str(folder)
-        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=my_env)
         output, err = p.communicate(string)
         return output
 
