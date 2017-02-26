@@ -85,8 +85,3 @@ class SyntaxnetParser(object):
                 json['contains']=parse_col(data, json['contains'])
         pprint.pprint(json)
         return json
-
-
-if __name__ == '__main__':
-    test=SyntaxnetParser()
-    test.parse_string("I am a dog")

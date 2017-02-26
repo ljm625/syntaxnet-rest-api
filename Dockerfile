@@ -36,4 +36,5 @@ COPY custom_parse.sh /opt/tensorflow/models/syntaxnet/syntaxnet/
 EXPOSE 80 443 9000
 VOLUME ["/app/config","/models"]
 WORKDIR /app
+RUN export LANG=C.UTF-8
 CMD ["/usr/bin/supervisord"]
