@@ -43,7 +43,7 @@ class SyntaxModelQuery(Resource):
         args = self.reqparse.parse_args()
         parse = parser.SyntaxnetParser(folder=args['syntax_folder'])
         try:
-            return parse.parse_multi_string(args['strings'],custom=True,folder=folder)
+            return parse.parse_multi_string_custom(args['strings'],folder=folder)
         except Exception, e:
             return {'result': 'fail', "reason": e}, 400
 

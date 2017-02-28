@@ -27,6 +27,46 @@ class SyntaxnetParser(object):
         ], shell=True, stderr=subprocess.PIPE, stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=my_env)
         output, err = p.communicate(string)
         return output
+    """
+    1       Google  _       ADJ     JJ      Number=Sing|fPOS=PROPN++NNP     3       nsubj   _       _
+    2       is      _       VERB    VBZ     Mood=Ind|Number=Sing|Person=3|Tense=Pres|VerbForm=Fin|fPOS=VERB++VBZ  3       cop     _       _
+    3       awesome!        _       NOUN    NN      Degree=Pos|fPOS=ADJ++JJ 0       ROOT    _       _
+    """
+    def parse_notree_string(self,output_list):
+        '''Used for parsing the output of a none tree stuff..'''
+        lines=len(output_list)
+        output=[]
+        for i in range(0,lines):
+            output.append({})
+        for stuff in output_list:
+            stuff=filter(None,stuff.split('\t'))
+            output[int(stuff[0])-1]['name']=stuff[1]
+            output[int(stuff[0]) - 1]['pos']=stuff[3]
+            output[int(stuff[0]) - 1]['pos_tag'] = stuff[4]
+            for cell in stuff[5].split('|'):
+                info=cell.split('=')
+                output[int(stuff[0]) - 1][info[0]]=info[1]
+            output[int(stuff[0]) - 1]['parent'] = int(stuff[6])-1
+            output[int(stuff[0]) - 1]['dep'] = stuff[7]
+        # Start to merge it to a tree
+        structured_tree={}
+        def merge_to_target(target,output,tree):
+            for i in range(0,lines):
+                if 'parent' in output[i] and output[i]['parent'] == target:
+                    del output[i]['parent']
+                    if 'contains' in tree:
+                        tree['contains'].append(output[i])
+                    else:
+                        tree['contains']=[output[i]]
+                    merge_to_target(i, output, tree['contains'][tree['contains'].index(output[i])])
+
+        for i in range(0,lines):
+            if 'parent' in output[i] and output[i]['parent']==-1:
+                structured_tree=output[i]
+                del output[i]['parent']
+                merge_to_target(i,output,structured_tree)
+        return structured_tree
+
 
     def exec_from_syntax_custom(self,string,folder):
         os.chdir(self.folder)
@@ -48,7 +88,8 @@ class SyntaxnetParser(object):
                     string=stuff
             return string
         if custom and folder:
-            output=self.exec_from_syntax_custom(generate(),folder).split('\n')
+            output=filter(None,self.exec_from_syntax_custom(generate(),folder).split('\n'))
+            print(output)
         else:
             output=self.exec_from_syntax(generate()).split('\n')
         start=0
@@ -61,6 +102,33 @@ class SyntaxnetParser(object):
                 else:
                     pass
             result_json.append(self.parse_string(output[start:len(output)]))
+        except Exception,e:
+            print e
+            result_json={"status":"error","reason":e}
+        finally:
+            return result_json
+
+
+    def parse_multi_string_custom(self,string_list,folder):
+        def generate():
+            string=''
+            for stuff in string_list:
+                if string:
+                    string=string+'\n'+stuff
+                else:
+                    string=stuff
+            return string
+        output=filter(None,self.exec_from_syntax_custom(generate(),folder).split('\n'))
+        start=0
+        result_json=[]
+        try:
+            for i in range(1,len(output)):
+                if output[i][0]=='1':
+                    result_json.append(self.parse_notree_string(output[start:i]))
+                    start=i
+                else:
+                    pass
+            result_json.append(self.parse_notree_string(output[start:len(output)]))
         except Exception,e:
             print e
             result_json={"status":"error","reason":e}
