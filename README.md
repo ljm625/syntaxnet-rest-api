@@ -11,7 +11,7 @@ then use curl to POST **http://localhost:9000/api/v1/query**
 The Body of the POST is a json consisting following info:
 ```json
 {
-   "strings": ["Google is awesome!","Syntaxnet is Cool","..."] 
+   "strings": ["Google is awesome!","Syntaxnet is Cool"]
 }
 ```
 
@@ -53,7 +53,7 @@ for example, I am using English package, and the folder we extracted is called E
 The Body of the POST is a json consisting following info:
 ```json
 {
-   "strings": ["Google is awesome!","Syntaxnet is Cool","..."] 
+   "strings": ["Google is awesome!","Syntaxnet is Cool"]
 }
 ```
 
@@ -62,38 +62,64 @@ and you should expect a response using the custom model.
 ```json
 [
   {
-    "pos_tag": "NOUN++NN",
+    "pos_tag": "NN",
+    "Degree": "Pos",
+    "name": "awesome!",
     "dep": "ROOT",
     "contains": [
       {
-        "pos_tag": "ADJ++JJ",
+        "pos_tag": "JJ",
+        "name": "Google",
         "dep": "nsubj",
-        "name": "Google"
+        "fPOS": "PROPN++NNP",
+        "Number": "Sing",
+        "pos": "ADJ"
       },
       {
-        "pos_tag": "VERB++VBZ",
+        "pos_tag": "VBZ",
+        "Mood": "Ind",
         "dep": "cop",
+        "fPOS": "VERB++VBZ",
+        "Number": "Sing",
+        "pos": "VERB",
+        "Person": "3",
+        "Tense": "Pres",
+        "VerbForm": "Fin",
         "name": "is"
       }
     ],
-    "name": "awesome!"
+    "fPOS": "ADJ++JJ",
+    "pos": "NOUN"
   },
   {
-    "pos_tag": "PROPN++NNP",
+    "pos_tag": "NNP",
+    "name": "Cool",
     "dep": "ROOT",
     "contains": [
       {
-        "pos_tag": "PROPN++NNP",
+        "pos_tag": "NNP",
+        "name": "Syntaxnet",
         "dep": "nsubj",
-        "name": "Syntaxnet"
+        "fPOS": "PROPN++NNP",
+        "Number": "Sing",
+        "pos": "PROPN"
       },
       {
-        "pos_tag": "VERB++VBZ",
+        "pos_tag": "VBZ",
+        "Mood": "Ind",
         "dep": "cop",
+        "fPOS": "VERB++VBZ",
+        "Number": "Sing",
+        "pos": "VERB",
+        "Person": "3",
+        "Tense": "Pres",
+        "VerbForm": "Fin",
         "name": "is"
       }
     ],
-    "name": "Cool"
+    "fPOS": "PROPN++NNP",
+    "Number": "Sing",
+    "pos": "PROPN"
   }
 ]
 ```
@@ -104,6 +130,12 @@ Feel free to try different languages using the prebuilt models :D
 This repo uses uses **tiangolo's** uwsgi+nginx+supervisord dockerfile. Special Thanks to him
 
 ### Updates
+2017/02/28:
+Using another method for fetching the info from syntaxnet engine, so you can get lots of info using custom model than before :D
+
+2017/02/26:
+Fix the issue with the UTF8 encoding, so non-lantern language are supported
+
 2016/11/18:
 Update the logic for multi sentence query so it should faster now
 
