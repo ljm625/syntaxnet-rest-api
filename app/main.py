@@ -30,7 +30,6 @@ class SyntaxQuery(Resource):
         except Exception, e:
             return {'result': 'fail', "reason": e}, 400
 
-
 class SyntaxModelQuery(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()

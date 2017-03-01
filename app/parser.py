@@ -123,7 +123,7 @@ class SyntaxnetParser(object):
         result_json=[]
         try:
             for i in range(1,len(output)):
-                if output[i][0]=='1':
+                if output[i][0:2]=='1\t':
                     result_json.append(self.parse_notree_string(output[start:i]))
                     start=i
                 else:
