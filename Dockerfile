@@ -1,4 +1,4 @@
-FROM ljm625/syntaxnet:latest
+FROM tensorflow/syntaxnet
 MAINTAINER Jiaming Li <ljm625@gmail.com>
 # Install uWSGI
 RUN pip install uwsgi
@@ -32,4 +32,5 @@ EXPOSE 80 443 9000
 VOLUME ["/app/config","/models"]
 WORKDIR /app
 RUN export LANG=C.UTF-8
+ENV PYTHONPATH $PYTHONPATH:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles/protobuf/python:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles/__main__:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles/six_archive:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles/org_tensorflow:/opt/tensorflow/syntaxnet/bazel-bin/dragnn/tools/oss_notebook_launcher.runfiles/protobuf
 CMD ["/usr/bin/supervisord"]

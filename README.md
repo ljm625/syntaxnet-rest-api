@@ -3,126 +3,199 @@ This is a simple Rest API for Google Syntaxnet. It parse the string with syntaxn
 
 The server uses Flask-restful / uwsgi and nginx, so it should be okay for multi query at the same time ( To be tested)
 
+**The Version you're checking is using the latest DRAGNN mode, which is way more faster than the original one!**
+
+
 ### Usage
-docker run -p 9000:9000 -d ljm625/syntaxnet-rest-api
+docker run -p 9000:9000 -v **/test_folder**:/models -d ljm625/syntaxnet-rest-api:dragnn
 
-then use curl to POST **http://localhost:9000/api/v1/query**
+Look here for detail: https://github.com/tensorflow/models/blob/master/syntaxnet/g3doc/conll2017/README.md
 
-The Body of the POST is a json consisting following info:
-```json
-{
-   "strings": ["Google is awesome!","Syntaxnet is Cool"]
-}
-```
+Download the conll2017 from here: https://drive.google.com/file/d/0BxpbZGYVZsEeSFdrUnBNMUp1YzQ/view?usp=sharing
 
-and the expect output is like:
-```json
-[
-  {
-    "pos_tag": "JJ",
-    "dep": "ROOT",
-    "contains": [
-      {
-        "pos_tag": "NNP",
-        "dep": "nsubj",
-        "name": "Google"
-      },
-      {
-        "pos_tag": "VBZ",
-        "dep": "cop",
-        "name": "is"
-      }
-    ],
-    "name": "awesome"
-  }
-]
-```
-### Using parsey_universal
-Look here for detail: https://github.com/tensorflow/models/blob/master/syntaxnet/universal.md
-
-After you download the model, unzip into to folder as you like (we use **/test_folder** here)
+Then extract the file and put the **language folder** you're using into a folder. (we use **/test_folder** here)
 
 execute the command like this:
 
-docker run -p 9000:9000 -v **/test_folder**:/models -d ljm625/syntaxnet-rest-api
+docker run -p 9000:9000 -v **/test_folder**:/models -d ljm625/syntaxnet-rest-api:dragnn
 
-then POST to **http://localhost:9000/api/v1/query/*the_folder_name***
+then GET to **http://localhost:9000/api/v1/use/*the_folder_name***
 
-for example, I am using English package, and the folder we extracted is called English, so the path is like **/test_folder/English**, and the url should be **http://localhost:9000/api/v1/query/English**
+for example, I am using English package, and the folder we extracted is called English, so the path is like **/test_folder/English**, and the url should be **http://localhost:9000/api/v1/use/English**
+
+The command above will load the model and let you able to use the module
+
+then POST to **http://localhost:9000/api/v1/query**
+
 
 The Body of the POST is a json consisting following info:
 ```json
 {
    "strings": ["Google is awesome!","Syntaxnet is Cool"]
+   "tree": true/false *This determines whether the output format is like a tree or just some lists*
 }
 ```
 
-and you should expect a response using the custom model.
+and you should expect a response **instantly**.
 
+#### Response with tree:false
 ```json
 [
   {
-    "pos_tag": "NN",
-    "Degree": "Pos",
-    "name": "awesome!",
-    "dep": "ROOT",
-    "contains": [
+    "input": "Google is awesome!",
+    "output": [
       {
-        "pos_tag": "JJ",
-        "name": "Google",
-        "dep": "nsubj",
+        "category": "",
+        "head": 2,
+        "word": "Google",
+        "break_level": 0,
         "fPOS": "PROPN++NNP",
         "Number": "Sing",
-        "pos": "ADJ"
+        "label": "nsubj"
       },
       {
-        "pos_tag": "VBZ",
+        "category": "",
+        "head": 2,
+        "word": "is",
         "Mood": "Ind",
-        "dep": "cop",
-        "fPOS": "VERB++VBZ",
+        "break_level": 1,
+        "fPOS": "AUX++VBZ",
         "Number": "Sing",
-        "pos": "VERB",
+        "label": "cop",
         "Person": "3",
         "Tense": "Pres",
-        "VerbForm": "Fin",
-        "name": "is"
+        "VerbForm": "Fin"
+      },
+      {
+        "category": "",
+        "head": -1,
+        "word": "awesome",
+        "Degree": "Pos",
+        "break_level": 1,
+        "fPOS": "ADJ++JJ",
+        "label": "root"
+      },
+      {
+        "category": "",
+        "head": 2,
+        "word": "!",
+        "break_level": 0,
+        "fPOS": "PUNCT++.",
+        "label": "punct"
       }
-    ],
-    "fPOS": "ADJ++JJ",
-    "pos": "NOUN"
+    ]
   },
   {
-    "pos_tag": "NNP",
-    "name": "Cool",
-    "dep": "ROOT",
-    "contains": [
+    "input": "Syntaxnet is Cool",
+    "output": [
       {
-        "pos_tag": "NNP",
-        "name": "Syntaxnet",
-        "dep": "nsubj",
-        "fPOS": "PROPN++NNP",
+        "category": "",
+        "head": 2,
+        "word": "Syntaxnet",
+        "break_level": 0,
+        "fPOS": "NOUN++NN",
         "Number": "Sing",
-        "pos": "PROPN"
+        "label": "nsubj"
       },
       {
-        "pos_tag": "VBZ",
+        "category": "",
+        "head": 2,
+        "word": "is",
         "Mood": "Ind",
-        "dep": "cop",
-        "fPOS": "VERB++VBZ",
+        "break_level": 1,
+        "fPOS": "AUX++VBZ",
         "Number": "Sing",
-        "pos": "VERB",
+        "label": "cop",
         "Person": "3",
         "Tense": "Pres",
-        "VerbForm": "Fin",
-        "name": "is"
+        "VerbForm": "Fin"
+      },
+      {
+        "category": "",
+        "head": -1,
+        "word": "Cool",
+        "Degree": "Pos",
+        "break_level": 1,
+        "fPOS": "ADJ++JJ",
+        "label": "root"
       }
-    ],
-    "fPOS": "PROPN++NNP",
-    "Number": "Sing",
-    "pos": "PROPN"
+    ]
   }
 ]
 ```
+
+#### Response with tree:true
+```json
+[
+  {
+    "category": "",
+    "word": "awesome",
+    "Degree": "Pos",
+    "break_level": 1,
+    "contains": [
+      {
+        "category": "",
+        "word": "Google",
+        "break_level": 0,
+        "fPOS": "PROPN++NNP",
+        "Number": "Sing",
+        "label": "nsubj"
+      },
+      {
+        "category": "",
+        "word": "is",
+        "Mood": "Ind",
+        "break_level": 1,
+        "fPOS": "AUX++VBZ",
+        "Number": "Sing",
+        "label": "cop",
+        "Person": "3",
+        "Tense": "Pres",
+        "VerbForm": "Fin"
+      },
+      {
+        "category": "",
+        "word": "!",
+        "break_level": 0,
+        "fPOS": "PUNCT++.",
+        "label": "punct"
+      }
+    ],
+    "fPOS": "ADJ++JJ",
+    "label": "root"
+  },
+  {
+    "category": "",
+    "word": "Cool",
+    "Degree": "Pos",
+    "break_level": 1,
+    "contains": [
+      {
+        "category": "",
+        "word": "Syntaxnet",
+        "break_level": 0,
+        "fPOS": "NOUN++NN",
+        "Number": "Sing",
+        "label": "nsubj"
+      },
+      {
+        "category": "",
+        "word": "is",
+        "Mood": "Ind",
+        "break_level": 1,
+        "fPOS": "AUX++VBZ",
+        "Number": "Sing",
+        "label": "cop",
+        "Person": "3",
+        "Tense": "Pres",
+        "VerbForm": "Fin"
+      }
+    ],
+    "fPOS": "ADJ++JJ",
+    "label": "root"
+  }
+]```
+
 
 Feel free to try different languages using the prebuilt models :D
 
