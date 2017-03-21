@@ -3,6 +3,8 @@ This is a simple Rest API for Google Syntaxnet. It parse the string with syntaxn
 
 The server uses Flask-restful / uwsgi and nginx, so it should be okay for multi query at the same time ( To be tested)
 
+**Please switch to dragnn branch if you have performance consideration, also it's newer :D**
+
 ### Usage
 docker run -p 9000:9000 -d ljm625/syntaxnet-rest-api
 
