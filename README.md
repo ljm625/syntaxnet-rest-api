@@ -32,9 +32,11 @@ The Body of the POST is a json consisting following info:
 ```json
 {
    "strings": ["Google is awesome!","Syntaxnet is Cool"]
-   "tree": true/false *This determines whether the output format is like a tree or just some lists*
+   "tree": true/false
 }
 ```
+The **TREE option** determines whether the output format is like a tree or just some lists, please check the demo below
+
 
 and you should expect a response **instantly**.
 
