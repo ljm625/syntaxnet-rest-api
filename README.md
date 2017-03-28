@@ -48,6 +48,7 @@ and you should expect a response **instantly**.
     "output": [
       {
         "category": "",
+        "pos_tag": "NNP",
         "head": 2,
         "word": "Google",
         "break_level": 0,
@@ -57,6 +58,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "VBZ",
         "head": 2,
         "word": "is",
         "Mood": "Ind",
@@ -70,6 +72,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "JJ",
         "head": -1,
         "word": "awesome",
         "Degree": "Pos",
@@ -79,6 +82,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": ".",
         "head": 2,
         "word": "!",
         "break_level": 0,
@@ -92,6 +96,7 @@ and you should expect a response **instantly**.
     "output": [
       {
         "category": "",
+        "pos_tag": "NN",
         "head": 2,
         "word": "Syntaxnet",
         "break_level": 0,
@@ -101,6 +106,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "VBZ",
         "head": 2,
         "word": "is",
         "Mood": "Ind",
@@ -114,6 +120,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "JJ",
         "head": -1,
         "word": "Cool",
         "Degree": "Pos",
@@ -131,12 +138,14 @@ and you should expect a response **instantly**.
 [
   {
     "category": "",
+    "pos_tag": "JJ",
     "word": "awesome",
     "Degree": "Pos",
     "break_level": 1,
     "contains": [
       {
         "category": "",
+        "pos_tag": "NNP",
         "word": "Google",
         "break_level": 0,
         "fPOS": "PROPN++NNP",
@@ -145,6 +154,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "VBZ",
         "word": "is",
         "Mood": "Ind",
         "break_level": 1,
@@ -157,6 +167,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": ".",
         "word": "!",
         "break_level": 0,
         "fPOS": "PUNCT++.",
@@ -168,12 +179,14 @@ and you should expect a response **instantly**.
   },
   {
     "category": "",
+    "pos_tag": "JJ",
     "word": "Cool",
     "Degree": "Pos",
     "break_level": 1,
     "contains": [
       {
         "category": "",
+        "pos_tag": "NN",
         "word": "Syntaxnet",
         "break_level": 0,
         "fPOS": "NOUN++NN",
@@ -182,6 +195,7 @@ and you should expect a response **instantly**.
       },
       {
         "category": "",
+        "pos_tag": "VBZ",
         "word": "is",
         "Mood": "Ind",
         "break_level": 1,
@@ -196,13 +210,18 @@ and you should expect a response **instantly**.
     "fPOS": "ADJ++JJ",
     "label": "root"
   }
-]```
+]
+```
 
 
 Feel free to try different languages using the prebuilt models :D
 
 ### Special Thanks
+
+Special Thanks to **malahovKS** for testing and submitting issues, really appreciated!
+
 This repo uses uses **tiangolo's** uwsgi+nginx+supervisord dockerfile. Special Thanks to him
+
 
 ### Updates
 
