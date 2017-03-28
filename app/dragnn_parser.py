@@ -204,38 +204,38 @@ class SyntaxnetParser(object):
                 else: result=self.parse_string_from_dragnn(string)
                 return_list.append(result)
             result_json=return_list
-        except Exception,e:
-            print e
+        except Exception as e:
+            print(e)
             result_json={"status":"error","reason":e}
         finally:
             return result_json
 
 
-    def parse_multi_string_custom(self,string_list,folder):
-        def generate():
-            string=''
-            for stuff in string_list:
-                if string:
-                    string=string+'\n'+stuff
-                else:
-                    string=stuff
-            return string
-        output=filter(None,self.exec_from_syntax_custom(generate(),folder).split('\n'))
-        start=0
-        result_json=[]
-        try:
-            for i in range(1,len(output)):
-                if output[i][0:2]=='1\t':
-                    result_json.append(self.parse_notree_string(output[start:i]))
-                    start=i
-                else:
-                    pass
-            result_json.append(self.parse_notree_string(output[start:len(output)]))
-        except Exception,e:
-            print e
-            result_json={"status":"error","reason":e}
-        finally:
-            return result_json
+    # def parse_multi_string_custom(self,string_list,folder):
+    #     def generate():
+    #         string=''
+    #         for stuff in string_list:
+    #             if string:
+    #                 string=string+'\n'+stuff
+    #             else:
+    #                 string=stuff
+    #         return string
+    #     output=filter(None,self.exec_from_syntax_custom(generate(),folder).split('\n'))
+    #     start=0
+    #     result_json=[]
+    #     try:
+    #         for i in range(1,len(output)):
+    #             if output[i][0:2]=='1\t':
+    #                 result_json.append(self.parse_notree_string(output[start:i]))
+    #                 start=i
+    #             else:
+    #                 pass
+    #         result_json.append(self.parse_notree_string(output[start:len(output)]))
+    #     except Exception as e:
+    #         print(e)
+    #         result_json={"status":"error","reason":e}
+    #     finally:
+    #         return result_json
 
 
 

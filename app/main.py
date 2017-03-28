@@ -34,7 +34,7 @@ class SyntaxQuery(Resource):
         #parse = parser.SyntaxnetParser(segmenter_model,parser_model,folder=args['syntax_folder'])
         try:
             return parse_handler.parse_multi_string(args['strings'],tree=args['tree'])
-        except Exception, e:
+        except Exception as e:
             return {'result': 'fail', "reason": e}, 400
 
 # class SyntaxModelQuery(Resource):
@@ -66,7 +66,7 @@ class SyntaxModelLoading(Resource):
             #segmenter_model = load_model("{}/{}/segmenter".format(config.modelFolder,folder), "spec.textproto", "checkpoint")
             #parser_model = load_model("{}/{}".format(config.modelFolder,folder), "parser_spec.textproto", "checkpoint")
             return {"result":"success"},200
-        except Exception, e:
+        except Exception as e:
             return {'result': 'fail', "reason": e}, 400
 
 
