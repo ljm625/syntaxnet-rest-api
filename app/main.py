@@ -65,6 +65,7 @@ class SyntaxModelLoading(Resource):
             parse_handler=dragnn_parser.SyntaxnetParser("{}/{}".format(config.modelFolder, folder))
             #segmenter_model = load_model("{}/{}/segmenter".format(config.modelFolder,folder), "spec.textproto", "checkpoint")
             #parser_model = load_model("{}/{}".format(config.modelFolder,folder), "parser_spec.textproto", "checkpoint")
+            return {"result":"success"},200
         except Exception, e:
             return {'result': 'fail', "reason": e}, 400
 
