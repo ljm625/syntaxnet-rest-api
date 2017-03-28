@@ -31,7 +31,7 @@ then POST to **http://localhost:9000/api/v1/query**
 The Body of the POST is a json consisting following info:
 ```json
 {
-   "strings": ["Google is awesome!","Syntaxnet is Cool"]
+   "strings": ["Google is awesome!","Syntaxnet is Cool"],
    "tree": true/false
 }
 ```
@@ -205,6 +205,10 @@ Feel free to try different languages using the prebuilt models :D
 This repo uses uses **tiangolo's** uwsgi+nginx+supervisord dockerfile. Special Thanks to him
 
 ### Updates
+
+2017/03/28:
+Rewrite most of the part of the code, using DRAGNN which is faster than before, also some minor bug fixes.
+
 2017/02/28:
 Using another method for fetching the info from syntaxnet engine, so you can get lots of info using custom model than before :D
 

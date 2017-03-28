@@ -165,6 +165,10 @@ class SyntaxnetParser(object):
             tmpdict['category'] = stuff.category
             tmpdict['head'] = stuff.head
             tmpdict = parse_attribute(str(stuff.tag), tmpdict)
+
+            # tmp fix for getting back the pos_tag
+            tmpdict['pos_tag']=tmpdict['fPOS'].split('++')[1]
+
             output.append(tmpdict)
         return_dict['output'] = output
         return return_dict
