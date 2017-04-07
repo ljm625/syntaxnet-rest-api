@@ -35,7 +35,7 @@ class SyntaxQuery(Resource):
         try:
             return parse_handler.parse_multi_string(args['strings'],tree=args['tree'])
         except Exception as e:
-            return {'result': 'fail', "reason": e}, 400
+            return {'result': 'fail', "reason": str(e)}, 400
 
 # class SyntaxModelQuery(Resource):
 #     def __init__(self):
@@ -67,7 +67,7 @@ class SyntaxModelLoading(Resource):
             #parser_model = load_model("{}/{}".format(config.modelFolder,folder), "parser_spec.textproto", "checkpoint")
             return {"result":"success"},200
         except Exception as e:
-            return {'result': 'fail', "reason": e}, 400
+            return {'result': 'fail', "reason": str(e)}, 400
 
 
 
