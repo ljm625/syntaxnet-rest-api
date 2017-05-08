@@ -7,6 +7,7 @@
 # @Software: PyCharm
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 
 import dragnn_parser
 from config import config
@@ -15,7 +16,9 @@ parse_handler=None
 
 
 app = Flask(__name__)
+CORS(app)
 api = Api(app)
+
 
 class SyntaxQuery(Resource):
     def __init__(self):

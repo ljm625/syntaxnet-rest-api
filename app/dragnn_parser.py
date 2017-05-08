@@ -151,7 +151,7 @@ class SyntaxnetParser(object):
             return_val = {}
             for i in range(0, len(result), 2):
                 print(filter(None, result[i].split('"')))
-                todo_dict[filter(None, result[i].split('"'))[0]] = filter(None, result[i + 1].split('"'))[0]
+                todo_dict[filter(None, result[i].split('"'))[0].lower()] = filter(None, result[i + 1].split('"'))[0]
             return todo_dict
 
         return_dict = {}
@@ -161,6 +161,7 @@ class SyntaxnetParser(object):
             tmpdict = {}
             tmpdict['word'] = stuff.word
             tmpdict['label'] = stuff.label
+            tmpdict['dep'] = stuff.label
             tmpdict['break_level'] = stuff.break_level
             tmpdict['category'] = stuff.category
             tmpdict['head'] = stuff.head
