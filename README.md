@@ -6,7 +6,7 @@ The server uses Flask-restful / uwsgi and nginx, so it should be okay for multi 
 **Please switch to dragnn branch if you have performance consideration, also it's newer :D**
 
 ### Usage
-docker run -p 9000:9000 -d ljm625/syntaxnet-rest-api
+docker run -p 9000:9000 -d ljm625/syntaxnet-rest-api:legacy
 
 then use curl to POST **http://localhost:9000/api/v1/query**
 
